@@ -16,6 +16,12 @@ module Milkrice
           occurrence = Output::Occurrence.new
           occurrence.check(f)
         end
+
+        opts.on('-u', '--unued', 'Check for unused methods') do
+          puts 'Checking for unused methods'
+          occurrence = Output::Unused.new
+          occurrence.check
+        end
       end
 
       def run

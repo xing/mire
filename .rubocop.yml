@@ -1,6 +1,1 @@
-###################
-# Disable for now #
-###################
-
-Metrics/LineLength:
-  Enabled: false
+require: rubocop-rspec

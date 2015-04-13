@@ -1,15 +1,20 @@
 module Milkrice
   # analyze all ruby files in a folder and find there usage
   class Analyzer
-    attr_reader :invokations
+    attr_reader :invocations
 
-    BLACKLIST = %i(lambda new inspect to_i to_a [])
+    BLACKLIST = %i(lambda new inspect to_i to_a [] []= * | ! != !~ % & + -@ / <
+                   << <= <=> == === =~ > >= - __callee__ __send__ initialize)
+
+    CALLBACKS = %i(after_create after_destroy after_save after_validation
+                   before_create before_destroy before_save before_validation)
+
     FILE = '.code_analyzed.json'
 
     def initialize
       @namespace = []
       @method = nil
-      @invokations = {}
+      @invocations = {}
     end
 
     def run
@@ -21,7 +26,7 @@ module Milkrice
 
     # save analyze hash as a file
     def save
-      IO.write(FILE, JSON.pretty_generate(@invokations))
+      IO.write(FILE, JSON.pretty_generate(@invocations))
     end
 
     private
@@ -38,9 +43,9 @@ module Milkrice
       "#{@namespace.join('::')}.#{@method}"
     end
 
-    def add_invokation(from, to)
-      @invokations[to] ||= []
-      @invokations[to] << from
+    def add_invocation(from, to)
+      @invocations[to] ||= []
+      @invocations[to] << from
     end
 
     def get_const(ast)
@@ -52,11 +57,16 @@ module Milkrice
       return unless ast.respond_to?(:type) && ast.respond_to?(:children)
       if ast.type == :send
         unless BLACKLIST.include?(ast.children[1].to_sym)
-          add_invokation({ scope: current_scope,
+          add_invocation({ scope: current_scope,
                            method: @method,
                            file: @filename,
                            line: ast.loc.line }, ast.children[1])
         end
+      elsif ast.type == :sym
+        add_invocation({ scope: current_scope,
+                         method: nil,
+                         file: @filename,
+                         line: ast.loc.line }, ast.children[0])
       end
       ast.children.each { |c| parse_method c }
     end
@@ -72,12 +82,20 @@ module Milkrice
       elsif ast.type == :def
         @method = ast.children.first
         ast.children.each { |c| parse_method c }
-      elsif ast.type == :send && ast.children[1] == :scope
-        @method = ast.children[2].children.last
+      elsif ast.type == :defs
+        @method = ast.children[1]
         ast.children.each { |c| parse_method c }
+      elsif ast.type == :send &&
+        (CALLBACKS + %i(scope validate)).include?(ast.children[1])
+        if ast.children[2]
+          @method = ast.children[2].children.last
+          ast.children.each { |c| parse_method c }
+        end
       else
         ast.children.each { |c| parse c }
       end
+    rescue
+      raise "Error while parsing #{@filename}:#{ast.loc.line}"
     end
   end
 end

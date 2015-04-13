@@ -1,22 +1,27 @@
 module Milkrice
   module Output
-    class Occurrence
-      def initialize
-      end
+    # checks for a term and print out the occurrences and the occurrences of
+    # this and so on
+    class Occurrence < Base
+      def check(term, levels: 2, indenting: 0)
+        return unless invocations[term]
+        invocations[term].each do |invocation|
+          puts render_invocation(invocation, indenting)
 
-      # check for a term
-      def check(term, levels: 5, ident: '  ')
-        return unless invokations[term]
-        invokations[term].each do |invokation|
-          puts "#{ident}#{invokation['scope']}  (#{invokation['file']}:#{invokation['line']})"
-          check(invokation['method'], levels: levels - 1, ident: "#{ident}  ") if levels > 0
+          next unless levels > 0
+          check(invocation['method'], levels: levels - 1,
+                                      indenting: indenting + 1)
         end
       end
 
       private
 
-      def invokations
-        JSON.parse(IO.read(Milkrice::Analyzer::FILE))
+      def render_invocation(invocation, indenting)
+        [
+          ' ' * indenting * 2,
+          invocation['scope'],
+          " (#{invocation['file']}:#{invocation['line']})"
+        ].join
       end
     end
   end
