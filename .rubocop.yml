@@ -1,0 +1,6 @@
+###################
+# Disable for now #
+###################
+
+Metrics/LineLength:
+  Enabled: false
