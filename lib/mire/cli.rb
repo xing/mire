@@ -1,10 +1,11 @@
 module Mire
+  # Command line interface for mire
   class CLI
     def initialize
       @cli = OptionParser.new do |opts|
-        opts.banner = 'Usage: parse.rb [options]'
+        opts.banner = 'Usage: bin/mire [options]'
 
-        opts.on('-a', '--analyze', 'analyze RAILS project') do
+        opts.on('-a', '--analyze', 'analyze ruby project') do
           analyzer = Analyzer.new
           puts 'Analyzing project'
           analyzer.run

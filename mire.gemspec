@@ -8,14 +8,17 @@ Gem::Specification.new do |spec|
   spec.version       = Mire::VERSION
   spec.authors       = ['Marcus Lankenau']
   spec.email         = ['marcus.lankenau@xing.com']
-  spec.summary       = 'analyzes your ruby project and help find dependencies, callstacks and unused methods'
-  spec.description   = 'analyzes your ruby project and help find dependencies, callstacks and unused methods'
+  spec.summary       = 'Analyzes a ruby project.'
+  spec.description   = <<-TEXT
+    Analyzes a ruby project and help you to find dependencies, call stacks and
+    unused methods.
+  TEXT
   spec.homepage      = ''
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.executables   = spec.files.grep(/bin\//) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'OptionParser'

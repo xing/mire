@@ -1,6 +1,7 @@
 # mire - a ruby method usage analyzer
 
-Analyzes a ruby project and finds method usage.
+Analyzes a ruby project and help you to find dependencies, call stacks
+and unused methods.
 
 ## Installation
 
