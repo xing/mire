@@ -1,4 +1,4 @@
-module Milkrice
+module Mire
   class CLI
     def initialize
       @cli = OptionParser.new do |opts|

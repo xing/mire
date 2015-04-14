@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'tempfile'
 
-describe Milkrice::Analyzer, type: :class do
+describe Mire::Analyzer, type: :class do
   let(:analyzer) { described_class.new }
   let(:invocations) { analyzer.instance_variable_get('@invocations') }
   def parse(content)

@@ -1,4 +1,4 @@
-module Milkrice
+module Mire
   module Output
     # Check for unused methods
     class Unused < Base

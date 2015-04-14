@@ -2,7 +2,7 @@
 
 $LOAD_PATH.unshift(File.dirname(File.realpath(__FILE__)) + '/../lib')
 
-require 'milkrice'
+require 'mire'
 
-cli = Milkrice::CLI.new
+cli = Mire::CLI.new
 cli.run

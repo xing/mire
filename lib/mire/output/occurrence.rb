@@ -1,4 +1,4 @@
-module Milkrice
+module Mire
   module Output
     # checks for a term and print out the occurrences and the occurrences of
     # this and so on

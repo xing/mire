@@ -1,30 +1,41 @@
-# Milkrice
+# mire - a ruby method usage analyzer
 
-TODO: Write a gem description
+Analyzes a ruby project and finds method usage.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'milkrice'
+gem 'mire'
 ```
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install milkrice
+```bash
+$ gem install mire
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+First you need to analyze the code
+
+```bash
+bundle exec mire -a
+```
+
+This will create a `.code_analyzed.json` file. This file can then be
+parsed to by mire or any other tool you like.
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/milkrice/fork )
+1. Fork it ( https://source.xing.com/events-team/mire/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

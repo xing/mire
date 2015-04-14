@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'milkrice/version'
+require 'mire/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'milkrice'
-  spec.version       = Milkrice::VERSION
+  spec.name          = 'mire'
+  spec.version       = Mire::VERSION
   spec.authors       = ['Marcus Lankenau']
   spec.email         = ['marcus.lankenau@xing.com']
   spec.summary       = 'analyzes your ruby project and help find dependencies, callstacks and unused methods'

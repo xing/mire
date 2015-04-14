@@ -1,4 +1,4 @@
-module Milkrice
+module Mire
   # analyze all ruby files in a folder and find there usage
   class Analyzer
     attr_reader :invocations

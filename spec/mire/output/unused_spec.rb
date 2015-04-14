@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Milkrice::Output::Unused, class: :model do
+describe Mire::Output::Unused, class: :model do
   it 'returns methods that are unused' do
     invocations = {
       foo: [
