@@ -11,7 +11,7 @@ describe Milkrice::Analyzer, type: :class do
     analyzer.send(:parse_file, file.path)
   end
 
-  it 'finds method call inside method' do
+  it 'finds method calls inside method' do
     parse <<-RUBY
       class Foo
         def bar
@@ -25,7 +25,7 @@ describe Milkrice::Analyzer, type: :class do
     expect(invocations[:buz].first[:line]).to eq(3)
   end
 
-  it 'find method call inside method' do
+  it 'finds method calls inside class.method' do
     parse <<-RUBY
       class Foo
         def self.bar
@@ -36,7 +36,7 @@ describe Milkrice::Analyzer, type: :class do
     expect(invocations[:buz]).not_to be_nil
   end
 
-  it 'find method call inside method' do
+  it 'finds callbacks' do
     parse <<-RUBY
       class Foo
         before_destroy :bar
@@ -48,7 +48,7 @@ describe Milkrice::Analyzer, type: :class do
     expect(invocations[:bar]).not_to be_nil
   end
 
-  it 'find method call inside method' do
+  it 'finds validation calls' do
     parse <<-RUBY
       class Foo
         validate :bar

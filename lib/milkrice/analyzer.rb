@@ -4,10 +4,12 @@ module Milkrice
     attr_reader :invocations
 
     BLACKLIST = %i(lambda new inspect to_i to_a [] []= * | ! != !~ % & + -@ / <
-                   << <= <=> == === =~ > >= - __callee__ __send__ initialize)
+                   << <= <=> == === =~ > >= - __callee__ __send__ initialize
+                   method_missing)
 
-    CALLBACKS = %i(after_create after_destroy after_save after_validation
-                   before_create before_destroy before_save before_validation)
+    CALLBACKS = %i(after_commit after_create after_destroy after_save
+                   after_update after_validation before_commit before_create
+                   before_destroy before_save before_update before_validation)
 
     FILE = '.code_analyzed.json'
 
