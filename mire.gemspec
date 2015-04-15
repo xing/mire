@@ -6,8 +6,8 @@ require 'mire/version'
 Gem::Specification.new do |spec|
   spec.name          = 'mire'
   spec.version       = Mire::VERSION
-  spec.authors       = ['Marcus Lankenau']
-  spec.email         = ['marcus.lankenau@xing.com']
+  spec.authors       = ['Nils Gemeinhardt', 'Marcus Lankenau']
+  spec.email         = ['nils.gemeinhardt@xing.com', 'marcus.lankenau@xing.com']
   spec.summary       = 'Analyzes a ruby project.'
   spec.description   = <<-TEXT
     Analyzes a ruby project and help you to find dependencies, call stacks and

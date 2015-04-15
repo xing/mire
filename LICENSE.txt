@@ -1,4 +1,4 @@
-Copyright (c) 2015 Marcus Lankenau
+Copyright (c) 2015 Marcus Lankenau, Nils Gemeinhardt
 
 MIT License
 
