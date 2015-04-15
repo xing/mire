@@ -31,7 +31,7 @@ First you need to analyze the code
 bundle exec mire -a
 ```
 
-This will create a `.code_analyzed.json` file. This file can then be
+This will create a `.mire_analysis.yml` file. This file can then be
 parsed to by mire or any other tool you like.
 
 ## Contributing

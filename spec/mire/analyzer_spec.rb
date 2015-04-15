@@ -3,9 +3,9 @@ require 'tempfile'
 
 describe Mire::Analyzer, type: :class do
   let(:analyzer) { described_class.new }
-  let(:invocations) { analyzer.instance_variable_get('@invocations') }
+  let(:methods) { analyzer.instance_variable_get('@methods') }
   def parse(content)
-    file = Tempfile.new('fred')
+    file = Tempfile.new('mire')
     file << content
     file.close
     analyzer.send(:parse_file, file.path)
@@ -19,10 +19,15 @@ describe Mire::Analyzer, type: :class do
         end
       end
     RUBY
-    expect(invocations[:buz]).not_to be_nil
-    expect(invocations[:buz].first[:scope]).to eq('Foo.bar')
-    expect(invocations[:buz].first[:method]).to eq(:bar)
-    expect(invocations[:buz].first[:line]).to eq(3)
+    expect(methods[:buz]).not_to be_nil
+    expect(methods[:buz][:invocations]).not_to be_empty
+    expect(methods[:buz][:invocations].first[:class]).to eq('Foo')
+    expect(methods[:buz][:invocations].first[:method]).to eq(:bar)
+    expect(methods[:buz][:invocations].first[:line]).to eq(3)
+    expect(methods[:bar][:definition]).not_to be_nil
+    expect(methods[:bar][:definition][:class]).to eq('Foo')
+    expect(methods[:bar][:definition][:method]).to eq(:bar)
+    expect(methods[:bar][:definition][:line]).to eq(2)
   end
 
   it 'finds method calls inside class.method' do
@@ -33,7 +38,7 @@ describe Mire::Analyzer, type: :class do
         end
       end
     RUBY
-    expect(invocations[:buz]).not_to be_nil
+    expect(methods[:buz]).not_to be_nil
   end
 
   it 'finds callbacks' do
@@ -45,7 +50,7 @@ describe Mire::Analyzer, type: :class do
         end
       end
     RUBY
-    expect(invocations[:bar]).not_to be_nil
+    expect(methods[:bar]).not_to be_nil
   end
 
   it 'finds validation calls' do
@@ -59,6 +64,21 @@ describe Mire::Analyzer, type: :class do
         end
       end
     RUBY
-    expect(invocations[:bar]).not_to be_nil
+    expect(methods[:bar]).not_to be_nil
+  end
+
+  it 'adds also not called methods' do
+    parse <<-RUBY
+      class Foo
+        def self.bar
+          true
+        end
+        def baz
+          self.bar
+        end
+      end
+    RUBY
+    expect(methods[:bar]).not_to be_nil
+    expect(methods[:baz]).not_to be_nil
   end
 end

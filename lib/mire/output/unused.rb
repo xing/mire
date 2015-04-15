@@ -3,17 +3,10 @@ module Mire
     # Check for unused methods
     class Unused < Base
       def check
-        h = []
-        invocations.each do |_key, is|
-          is.each do |i|
-            method = i['method']
-            next if method.nil? ||
-              Analyzer::BLACKLIST.include?(method.to_sym) ||
-              invocations[method]
-            h << i['scope']
-          end
-        end
-        puts h.uniq.sort
+        puts methods
+          .select { |_, m| m['invocations'].empty? }
+          .map { |_, m| location(m['definition']) }
+          .sort
       end
     end
   end

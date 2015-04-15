@@ -1,7 +1,7 @@
 module Mire
   # analyze all ruby files in a folder and find there usage
   class Analyzer
-    attr_reader :invocations
+    attr_reader :methods
 
     BLACKLIST = %i(lambda new inspect to_i to_a [] []= * | ! != !~ % & + -@ / <
                    << <= <=> == === =~ > >= - __callee__ __send__ initialize
@@ -11,12 +11,12 @@ module Mire
                    after_update after_validation before_commit before_create
                    before_destroy before_save before_update before_validation)
 
-    FILE = '.code_analyzed.json'
+    FILE = '.mire_analysis.yml'
 
     def initialize
       @namespace = []
       @method = nil
-      @invocations = {}
+      @methods = {}
     end
 
     def run
@@ -28,7 +28,7 @@ module Mire
 
     # save analyze hash as a file
     def save
-      IO.write(FILE, JSON.pretty_generate(@invocations))
+      IO.write(FILE, @methods.to_yaml)
     end
 
     private
@@ -41,34 +41,34 @@ module Mire
       @filename = nil
     end
 
-    def current_scope
-      "#{@namespace.join('::')}.#{@method}"
+    def location(ast)
+      {
+        class: @namespace.join('::'),
+        method: @method,
+        file: @filename,
+        line: ast.loc.line
+      }
     end
 
-    def add_invocation(from, to)
-      @invocations[to] ||= []
-      @invocations[to] << from
+    def add_method(to, definition: nil, invocation: nil)
+      return if BLACKLIST.include?(to.to_sym)
+
+      @methods[to] ||= { definition: nil, invocations: [] }
+      @methods[to][:definition] = location(definition) if definition
+      @methods[to][:invocations] << location(invocation) if invocation
     end
 
     def get_const(ast)
-      fail "#{ast} is not a const" unless ast.type == :const
+      fail "#{ast} is not a constant" unless ast.type == :const
       ast.children.last.to_s
     end
 
     def parse_method(ast)
       return unless ast.respond_to?(:type) && ast.respond_to?(:children)
       if ast.type == :send
-        unless BLACKLIST.include?(ast.children[1].to_sym)
-          add_invocation({ scope: current_scope,
-                           method: @method,
-                           file: @filename,
-                           line: ast.loc.line }, ast.children[1])
-        end
+        add_method(ast.children[1], invocation: ast)
       elsif ast.type == :sym
-        add_invocation({ scope: current_scope,
-                         method: nil,
-                         file: @filename,
-                         line: ast.loc.line }, ast.children[0])
+        add_method(ast.children[0], invocation: ast)
       end
       ast.children.each { |c| parse_method c }
     end
@@ -79,13 +79,9 @@ module Mire
         @namespace.push(get_const(ast.children.first))
         ast.children.each { |c| parse c }
         @namespace.pop
-      elsif ast.type == :begin
-        ast.children.each { |c| parse c }
-      elsif ast.type == :def
-        @method = ast.children.first
-        ast.children.each { |c| parse_method c }
-      elsif ast.type == :defs
-        @method = ast.children[1]
+      elsif %i(def defs).include?(ast.type)
+        @method = ast.children[ast.type == :defs ? 1 : 0]
+        add_method(@method, definition: ast)
         ast.children.each { |c| parse_method c }
       elsif ast.type == :send &&
         (CALLBACKS + %i(scope validate)).include?(ast.children[1])

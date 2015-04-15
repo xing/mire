@@ -1,6 +1,5 @@
 require 'parser/current'
 require 'yaml'
-require 'json'
 require 'optparse'
 
 require 'mire/analyzer'
