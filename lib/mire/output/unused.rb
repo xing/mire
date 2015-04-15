@@ -3,9 +3,9 @@ module Mire
     # Check for unused methods
     class Unused < Base
       def check
-        puts methods
-          .select { |_, m| m['invocations'].empty? }
-          .map { |_, m| location(m['definition']) }
+        methods
+          .select { |_, m| m[:invocations].empty? }
+          .map { |_, m| location(m[:definition]) }
           .sort
       end
     end

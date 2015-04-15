@@ -15,13 +15,13 @@ module Mire
         opts.on('-c', '--check TERM', 'Check term and find usages') do |f|
           puts "Checking term #{f}"
           occurrence = Output::Occurrence.new
-          occurrence.check(f)
+          puts occurrence.check(f)
         end
 
         opts.on('-u', '--unued', 'Check for unused methods') do
           puts 'Checking for unused methods'
           occurrence = Output::Unused.new
-          occurrence.check
+          puts occurrence.check
         end
       end
 

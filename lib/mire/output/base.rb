@@ -5,7 +5,7 @@ module Mire
       protected
 
       def methods
-        @methods ||= JSON.parse(IO.read(Mire::Analyzer::FILE))
+        @methods ||= YAML.load_file(Mire::Analyzer::FILE)
       end
 
       def location(location)
@@ -15,11 +15,11 @@ module Mire
       private
 
       def location_method(location)
-        "#{location['class']}.#{location['method']}"
+        "#{location[:class]}.#{location[:method]}"
       end
 
       def location_file(location)
-        " (#{location['file']}:#{location['line']})"
+        " (#{location[:file]}:#{location[:line]})"
       end
     end
   end
