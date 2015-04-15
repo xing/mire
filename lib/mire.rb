@@ -1,6 +1,7 @@
 require 'parser/current'
 require 'yaml'
 require 'optparse'
+require 'ruby-progressbar'
 
 require 'mire/analyzer'
 require 'mire/cli'

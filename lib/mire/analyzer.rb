@@ -17,12 +17,14 @@ module Mire
       @namespace = []
       @method = nil
       @methods = {}
+      @files = Dir['app/**/*.rb']
     end
 
     def run
-      Dir['app/**/*.rb'].each do |file|
-        print '.'
+      progress_bar = ProgressBar.create(total: @files.count)
+      @files.each do |file|
         parse_file(file)
+        progress_bar.increment
       end
     end
 

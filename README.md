@@ -1,4 +1,4 @@
-# mire - a ruby method usage analyzer
+# mire
 
 Analyzes a ruby project and help you to find dependencies, call stacks
 and unused methods.
