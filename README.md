@@ -45,14 +45,14 @@ will lead to this `.mire_analysis.yml` file.
 
 ```yaml
 :bar:
-  :definition:
-    :class: Foo
+  :definitions:
+  - :class: Foo
     :method: :bar
     :file: foo.rb
     :line: 2
   :invocations: []
 :buz:
-  :definition:
+  :definition: []
   :invocations:
   - :class: Foo
     :method: :bar

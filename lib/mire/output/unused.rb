@@ -5,7 +5,8 @@ module Mire
       def check
         methods
           .select { |_, m| m[:invocations].empty? }
-          .map { |_, m| location(m[:definition]) }
+          .map { |_, m| m[:definitions].map { |d| location(d) } }
+          .flatten
           .sort
       end
     end

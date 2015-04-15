@@ -4,12 +4,14 @@ describe Mire::Output::Occurrence, type: :model do
   it 'returns occurrences of a given method' do
     methods = {
       foo: {
-        definition: {
-          class: 'Foo',
-          method: 'bar',
-          file: 'foo.rb',
-          line: '123'
-        },
+        definitions: [
+          {
+            class: 'Foo',
+            method: 'bar',
+            file: 'foo.rb',
+            line: '123'
+          }
+        ],
         invocations: [
           {
             class: 'Foo',
@@ -26,12 +28,14 @@ describe Mire::Output::Occurrence, type: :model do
         ]
       },
       buz: {
-        definition: {
-          class: 'Foo',
-          method: 'buz',
-          file: 'foo.rb',
-          line: '1234'
-        },
+        definitions: [
+          {
+            class: 'Foo',
+            method: 'buz',
+            file: 'foo.rb',
+            line: '1234'
+          }
+        ],
         invocations: [
           {
             class: 'Foo',

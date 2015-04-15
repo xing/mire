@@ -24,10 +24,10 @@ describe Mire::Analyzer, type: :class do
     expect(methods[:buz][:invocations].first[:class]).to eq('Foo')
     expect(methods[:buz][:invocations].first[:method]).to eq(:bar)
     expect(methods[:buz][:invocations].first[:line]).to eq(3)
-    expect(methods[:bar][:definition]).not_to be_nil
-    expect(methods[:bar][:definition][:class]).to eq('Foo')
-    expect(methods[:bar][:definition][:method]).to eq(:bar)
-    expect(methods[:bar][:definition][:line]).to eq(2)
+    expect(methods[:bar][:definitions]).not_to be_empty
+    expect(methods[:bar][:definitions].first[:class]).to eq('Foo')
+    expect(methods[:bar][:definitions].first[:method]).to eq(:bar)
+    expect(methods[:bar][:definitions].first[:line]).to eq(2)
   end
 
   it 'finds method calls inside class.method' do

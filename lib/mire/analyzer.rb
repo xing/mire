@@ -55,8 +55,8 @@ module Mire
     def add_method(to, definition: nil, invocation: nil)
       return if BLACKLIST.include?(to.to_sym)
 
-      @methods[to] ||= { definition: nil, invocations: [] }
-      @methods[to][:definition] = location(definition) if definition
+      @methods[to] ||= { definitions: [], invocations: [] }
+      @methods[to][:definitions] << location(definition) if definition
       @methods[to][:invocations] << location(invocation) if invocation
     end
 
