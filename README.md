@@ -25,14 +25,54 @@ $ gem install mire
 
 ## Usage
 
-First you need to analyze the code
+First you need to analyze the code and create a `.mire_analysis.yml` file.
 
 ```bash
 bundle exec mire -a
 ```
 
-This will create a `.mire_analysis.yml` file. This file can then be
-parsed to by mire or any other tool you like.
+A ruby code like
+
+```ruby
+class Foo
+  def bar
+    buz
+  end
+end
+```
+
+will lead to this `.mire_analysis.yml` file.
+
+```yaml
+:bar:
+  :definition:
+    :class: Foo
+    :method: :bar
+    :file: foo.rb
+    :line: 2
+  :invocations: []
+:buz:
+  :definition:
+  :invocations:
+  - :class: Foo
+    :method: :bar
+    :file: foo.rb
+    :line: 3
+```
+
+After this the `.mire_analysis.yml` file can be used for example to find unused
+methods.
+
+```bash
+bundle exec mire -u
+
+Checking for unused methods
+Foo.bar (foo.rb:2)
+```
+
+This result can only be taken as a hint where to look for unused methods since
+there are places (e.g. in the views) where mire can't find the usage of a
+method.
 
 ## Contributing
 
