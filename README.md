@@ -1,7 +1,15 @@
 # mire
 
-Analyzes a ruby project and help you to find dependencies, call stacks
-and unused methods.
+mire analyzes a ruby project and help you to find dependencies, call
+stacks and unused methods. It parses Ruby and HAML files and collects
+all method definitions and invocations.
+
+* [Installation](#installation)
+* [Usage](#usage)
+* [Configuration](#configuration)
+* [Dependencies](#dependencies)
+* [TODO](#todo)
+
 
 ## Installation
 
@@ -26,7 +34,7 @@ $ gem install mire
 ## Usage
 
 First you need to analyze the code and create a `.mire_analysis.yml`
-file. miri will look into all `.rb` and `.haml` files.
+file.
 
 ```bash
 bundle exec mire -a
@@ -71,13 +79,13 @@ Checking for unused methods
 foo.rb:2 Foo.bar
 ```
 
-This result can only be taken as a hint where to look for unused methods since
-there are places (e.g. in the views) where mire can't find the usage of a
-method.
+This result can only be taken as a hint where to look for unused methods
+since there are places (e.g. erb files) where mire can't find the usage
+of a method.
 
 ## Configuration
 
-mire can be configured by `.mire.yml` file. You can configure which
+mire can be configured by a `.mire.yml` file. You can configure which
 files and folders should be excluded when displaying the unused methods.
 
 ```yaml
@@ -89,6 +97,19 @@ output:
       - script/**/*
       - lib/**/*
 ```
+
+## Dependencies
+
+Why is [HAML-Lint](https://github.com/brigade/haml-lint) needed?
+
+HAML-Lint did a great job to write a ruby code extractor for haml files.
+mire is using this extractor.
+
+## TODO
+
+The current implementation of mire is really basic. It needs to become
+more robust and the parsed file types (e.g. `.erb`) needs to be
+extended.
 
 ## Contributing
 
