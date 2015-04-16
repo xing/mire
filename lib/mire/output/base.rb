@@ -13,17 +13,23 @@ module Mire
       end
 
       def location(location)
-        [location_method(location), location_file(location)].join
+        [location_file(location), location_method(location)]
+          .reject { |s| s.to_s.empty? }
+          .join(' ')
       end
 
       private
 
       def location_method(location)
-        "#{location[:class]}.#{location[:method]}"
+        [location[:class], location[:method]]
+          .reject { |s| s.to_s.empty? }
+          .join('.')
       end
 
       def location_file(location)
-        " (#{location[:file]}:#{location[:line]})"
+        [location[:file], location[:line]]
+          .reject { |s| s.to_s.empty? }
+          .join(':')
       end
     end
   end

@@ -13,34 +13,54 @@ module Mire
 
     FILE = '.mire_analysis.yml'
 
-    def initialize
+    def initialize(files: nil)
       @namespace = []
-      @method = nil
       @methods = {}
-      @files = Dir['**/*.rb']
+      @files = files || Dir['**/*.{rb,haml}']
     end
 
     def run
       progress_bar = ProgressBar.create(total: @files.count)
       @files.each do |file|
-        parse_file(file)
+        @method = nil
+        @filename = file
+        case file_type(file)
+        when :haml
+          parse_haml_file(file)
+        when :rb
+          parse_file(file)
+        end
+        @filename = nil
         progress_bar.increment
       end
     end
 
-    # save analyze hash as a file
     def save
       IO.write(FILE, @methods.to_yaml)
     end
 
     private
 
+    def file_type(filename)
+      filename.split('.').last.to_sym
+    end
+
     def parse_file(filename)
-      @filename = filename
       file_content = IO.read(filename)
       ast = Parser::CurrentRuby.parse(file_content)
       parse(ast)
-      @filename = nil
+    rescue
+      nil
+    end
+
+    def parse_haml_file(filename)
+      file_content = IO.read(filename)
+      parser = HamlLint::Parser.new(file_content)
+      extractor = HamlLint::ScriptExtractor.new(parser)
+      ast = Parser::CurrentRuby.parse(extractor.extract.strip)
+      parse_method(ast)
+    rescue
+      nil
     end
 
     def location(ast)
@@ -53,6 +73,9 @@ module Mire
     end
 
     def add_method(to, definition: nil, invocation: nil)
+      # TODO: this class check should not be necessary - it looks like the code
+      # is still messing up by determine the method
+      return unless [String, Symbol, NilClass].include?(@method.class)
       return if BLACKLIST.include?(to.to_sym)
 
       @methods[to] ||= { definitions: [], invocations: [] }

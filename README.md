@@ -25,7 +25,8 @@ $ gem install mire
 
 ## Usage
 
-First you need to analyze the code and create a `.mire_analysis.yml` file.
+First you need to analyze the code and create a `.mire_analysis.yml`
+file. miri will look into all `.rb` and `.haml` files.
 
 ```bash
 bundle exec mire -a
@@ -67,7 +68,7 @@ methods.
 bundle exec mire -u
 
 Checking for unused methods
-Foo.bar (foo.rb:2)
+foo.rb:2 Foo.bar
 ```
 
 This result can only be taken as a hint where to look for unused methods since

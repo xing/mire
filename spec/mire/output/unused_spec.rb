@@ -27,8 +27,8 @@ describe Mire::Output::Unused, class: :model do
 
   it 'returns methods that are unused' do
     expect(subject.check).to match_array([
-      'Foo.bar (foo/bar.rb:123)',
-      'Boo.bar (boo/bar.rb:12)'
+      'foo/bar.rb:123 Foo.bar',
+      'boo/bar.rb:12 Boo.bar'
     ])
   end
 
@@ -46,6 +46,6 @@ describe Mire::Output::Unused, class: :model do
     configuration.close
 
     stub_const('Mire::Configuration::FILE', configuration.path)
-    expect(subject.check).to eq(['Foo.bar (foo/bar.rb:123)'])
+    expect(subject.check).to eq(['foo/bar.rb:123 Foo.bar'])
   end
 end

@@ -48,9 +48,9 @@ describe Mire::Output::Occurrence, type: :model do
     }
     allow(subject).to receive(:methods).and_return(methods)
     expect(subject.check(:foo)).to eq [
-      'Foo.baz (foo.rb:10)',
-      'Foo.buz (foo.rb:20)',
-      '  Foo.biz (foo.rb:30)'
+      'foo.rb:10 Foo.baz',
+      'foo.rb:20 Foo.buz',
+      '  foo.rb:30 Foo.biz'
     ]
   end
 end

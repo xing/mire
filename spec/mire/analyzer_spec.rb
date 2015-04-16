@@ -81,4 +81,22 @@ describe Mire::Analyzer, type: :class do
     expect(methods[:bar]).not_to be_nil
     expect(methods[:baz]).not_to be_nil
   end
+
+  context 'haml files' do
+    let(:analyzer) { described_class.new(files: Dir[haml_file]) }
+    let(:haml_file) do
+      Tempfile.new(['mire_haml', '.haml']).tap do |haml_file|
+        haml_file << ['- if bar', '  %b= foo'].join("\n")
+        haml_file.close
+      end
+    end
+
+    it do
+      analyzer.run
+      expect(methods[:bar]).not_to be_nil
+      expect(methods[:bar][:invocations]).not_to be_empty
+      expect(methods[:bar][:invocations].first[:file]).to eq(haml_file.path)
+      expect(methods[:foo]).not_to be_nil
+    end
+  end
 end
