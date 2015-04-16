@@ -17,7 +17,7 @@ module Mire
       @namespace = []
       @method = nil
       @methods = {}
-      @files = Dir['app/**/*.rb']
+      @files = Dir['**/*.rb']
     end
 
     def run

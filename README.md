@@ -74,6 +74,21 @@ This result can only be taken as a hint where to look for unused methods since
 there are places (e.g. in the views) where mire can't find the usage of a
 method.
 
+## Configuration
+
+mire can be configured by `.mire.yml` file. You can configure which
+files and folders should be excluded when displaying the unused methods.
+
+```yaml
+output:
+  unused:
+    excluded_files:
+      - db/migrate/**/*
+      - spec/**/*
+      - script/**/*
+      - lib/**/*
+```
+
 ## Contributing
 
 1. Fork it ( https://source.xing.com/events-team/mire/fork )

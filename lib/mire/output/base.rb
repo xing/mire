@@ -8,6 +8,10 @@ module Mire
         @methods ||= YAML.load_file(Mire::Analyzer::FILE)
       end
 
+      def configuration
+        @configuration ||= Mire::Configuration.new
+      end
+
       def location(location)
         [location_method(location), location_file(location)].join
       end

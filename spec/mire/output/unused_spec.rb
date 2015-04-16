@@ -1,7 +1,8 @@
 require 'spec_helper'
+require 'tempfile'
 
 describe Mire::Output::Unused, class: :model do
-  it 'returns methods that are unused' do
+  before do
     methods = {
       foo: {
         definitions: [
@@ -22,9 +23,29 @@ describe Mire::Output::Unused, class: :model do
       }
     }
     allow(subject).to receive(:methods).and_return(methods)
+  end
+
+  it 'returns methods that are unused' do
     expect(subject.check).to match_array([
       'Foo.bar (foo/bar.rb:123)',
       'Boo.bar (boo/bar.rb:12)'
     ])
+  end
+
+  it 'ignores files when given in the configuration' do
+    configuration = Tempfile.new('mire_configuration')
+    configuration << {
+      output: {
+        unused: {
+          excluded_files: [
+            'boo/**/*'
+          ]
+        }
+      }
+    }.to_yaml
+    configuration.close
+
+    stub_const('Mire::Configuration::FILE', configuration.path)
+    expect(subject.check).to eq(['Foo.bar (foo/bar.rb:123)'])
   end
 end

@@ -5,6 +5,7 @@ require 'ruby-progressbar'
 
 require 'mire/analyzer'
 require 'mire/cli'
+require 'mire/configuration'
 
 require 'mire/output/base'
 require 'mire/output/occurrence'
