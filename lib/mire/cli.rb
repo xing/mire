@@ -23,6 +23,15 @@ module Mire
           occurrence = Output::Unused.new
           puts occurrence.check
         end
+
+        opts.on('-i', '--init', 'Create initial configuration file') do
+          begin
+            Mire::Configuration.copy_example
+            puts "Configuration file #{Mire::Configuration::FILE} created"
+          rescue Mire::Configuration::ExistingFile
+            puts "Existing #{Mire::Configuration::FILE} file found - nothing done"
+          end
+        end
       end
 
       def run

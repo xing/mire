@@ -2,14 +2,12 @@ module Mire
   module Output
     # base class of output classes
     class Base
+      include ConfigurationMethods
+
       protected
 
       def methods
         @methods ||= YAML.load_file(Mire::Analyzer::FILE)
-      end
-
-      def configuration
-        @configuration ||= Mire::Configuration.new
       end
 
       def location(location)

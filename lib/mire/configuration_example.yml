@@ -1,0 +1,12 @@
+excluded_files:
+  - vendor/**/*
+
+output:
+  unused:
+    excluded_files:
+      - app/controllers/**/*
+      - config/**/*
+      - db/migrate/**/*
+      - lib/**/*
+      - script/**/*
+      - spec/**/*

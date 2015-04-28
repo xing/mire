@@ -4,9 +4,10 @@ require 'optparse'
 require 'ruby-progressbar'
 require 'haml_lint'
 
+require 'mire/configuration'
+require 'mire/configuration_methods'
 require 'mire/analyzer'
 require 'mire/cli'
-require 'mire/configuration'
 
 require 'mire/output/base'
 require 'mire/output/occurrence'

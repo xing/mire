@@ -85,10 +85,16 @@ of a method.
 
 ## Configuration
 
-mire can be configured by a `.mire.yml` file. You can configure which
-files and folders should be excluded when displaying the unused methods.
+mire can be configured with a `.mire.yml` file in your project folder.
+With `mire -i` a initial configuration file is created.
+
+You can configure which files or folders should be excluded while
+analyzing the code or when displaying the unused methods.
 
 ```yaml
+excluded_files:
+  - vendor/**/*
+
 output:
   unused:
     excluded_files:

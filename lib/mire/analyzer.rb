@@ -1,6 +1,8 @@
 module Mire
   # analyze all ruby files in a folder and find there usage
   class Analyzer
+    include ConfigurationMethods
+
     attr_reader :methods
 
     BLACKLIST = %i(lambda new inspect to_i to_a [] []= * | ! != !~ % & + -@ / <
@@ -23,6 +25,7 @@ module Mire
       progress_bar = ProgressBar.create(total: @files.count)
       @files.each do |file|
         @method = nil
+        next if excluded_file?(file)
         @filename = file
         case file_type(file)
         when :haml
@@ -33,6 +36,7 @@ module Mire
         @filename = nil
         progress_bar.increment
       end
+      self
     end
 
     def save
@@ -43,6 +47,10 @@ module Mire
 
     def file_type(filename)
       filename.split('.').last.to_sym
+    end
+
+    def excluded_files
+      @excluded_files ||= configuration.read(:excluded_files) || []
     end
 
     def parse_file(filename)
