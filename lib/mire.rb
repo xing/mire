@@ -1,6 +1,6 @@
 require 'parser/current'
 require 'yaml'
-require 'optparse'
+require 'slop'
 require 'ruby-progressbar'
 require 'haml_lint'
 

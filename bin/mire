@@ -4,5 +4,4 @@ $LOAD_PATH.unshift(File.dirname(File.realpath(__FILE__)) + '/../lib')
 
 require 'mire'
 
-cli = Mire::CLI.new
-cli.run
+Mire::CLI.parse
