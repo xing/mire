@@ -1,4 +1,4 @@
-# mire
+# mire [ˈmɪʀɛ]
 
 mire analyzes a ruby project and help you to find dependencies, call
 stacks and unused methods. It parses Ruby and HAML files and collects
