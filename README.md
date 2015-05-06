@@ -124,3 +124,11 @@ extended.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Authors
+
+[Nils Gemeinhardt](https://github.com/geniou) and [Marcus Lankenau](https://github.com/mlankenau)
+
+Copyright (c) 2015 [XING EVENTS GmbH](http://de.amiando.com/)
+
+Released under the MIT license. For full details see LICENSE included in this distribution.
