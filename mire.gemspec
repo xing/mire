@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Mire::VERSION
   spec.authors       = ['Nils Gemeinhardt', 'Marcus Lankenau']
   spec.email         = ['nils.gemeinhardt@xing.com', 'marcus.lankenau@xing.com']
-  spec.summary       = 'Analyzes a ruby project.'
+  spec.summary       = 'Analyzes a Ruby project.'
   spec.description   = <<-TEXT
-    Analyzes a ruby project and help you to find dependencies, call stacks and
+    Analyzes a Ruby project and helps you to find dependencies, call stacks and
     unused methods.
   TEXT
   spec.homepage      = 'https://source.xing.com/events-team/mire'
