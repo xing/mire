@@ -1,7 +1,7 @@
 # mire [ˈmɪʀɛ]
 
 mire analyzes a Ruby project and helps you to find dependencies, call
-stacks and unused methods. It parses Ruby and HAML files and collects
+stacks and unused methods. It parses Ruby and Haml files and collects
 all method definitions and invocations.
 
 * [Installation](#installation)
@@ -108,7 +108,7 @@ output:
 
 Why is [HAML-Lint](https://github.com/brigade/haml-lint) needed?
 
-HAML-Lint did a great job to write a Ruby code extractor for HAML files.
+HAML-Lint did a great job to write a Ruby code extractor for Haml files.
 mire is using this extractor.
 
 ## TODO
