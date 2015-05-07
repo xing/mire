@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
     Analyzes a Ruby project and helps you to find dependencies, call stacks and
     unused methods.
   TEXT
-  spec.homepage      = 'https://source.xing.com/events-team/mire'
+  spec.homepage      = 'https://github.com/xing/mire'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
