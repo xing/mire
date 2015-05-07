@@ -1,6 +1,6 @@
 # mire [ˈmɪʀɛ]
 
-mire analyzes a ruby project and help you to find dependencies, call
+mire analyzes a Ruby project and helps you to find dependencies, call
 stacks and unused methods. It parses Ruby and HAML files and collects
 all method definitions and invocations.
 
@@ -40,7 +40,7 @@ file.
 bundle exec mire -a
 ```
 
-A ruby code like
+A Ruby code like
 
 ```ruby
 class Foo
@@ -69,8 +69,8 @@ will lead to this `.mire_analysis.yml` file.
     :line: 3
 ```
 
-After this the `.mire_analysis.yml` file can be used for example to find unused
-methods.
+After this the `.mire_analysis.yml` file can be used to find unused
+methods for example.
 
 ```bash
 bundle exec mire -u
@@ -79,9 +79,9 @@ Checking for unused methods
 foo.rb:2 Foo.bar
 ```
 
-This result can only be taken as a hint where to look for unused methods
-since there are places (e.g. erb files) where mire can't find the usage
-of a method.
+This result can only be taken as a hint for unused methods. For example ERB files are
+not being analysed yet. Also dynamic method definitions or invocations are not
+considered.  So mire can't find every usage of a method.
 
 ## Configuration
 
@@ -108,7 +108,7 @@ output:
 
 Why is [HAML-Lint](https://github.com/brigade/haml-lint) needed?
 
-HAML-Lint did a great job to write a ruby code extractor for haml files.
+HAML-Lint did a great job to write a Ruby code extractor for HAML files.
 mire is using this extractor.
 
 ## TODO
@@ -124,3 +124,11 @@ extended.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Authors
+
+[Nils Gemeinhardt](https://github.com/geniou) and [Marcus Lankenau](https://github.com/mlankenau)
+
+Copyright (c) 2015 [XING EVENTS GmbH](http://de.amiando.com/)
+
+Released under the MIT license. For full details see LICENSE included in this distribution.
