@@ -13,6 +13,8 @@ module Mire
                    after_update after_validation before_commit before_create
                    before_destroy before_save before_update before_validation)
 
+    BLOCKS = %i(task)
+
     FILE = '.mire_analysis.yml'
 
     def initialize(files: nil)
@@ -106,6 +108,7 @@ module Mire
       ast.children.each { |c| parse_method c }
     end
 
+    # TODO: cleanup
     def parse(ast)
       return unless ast.respond_to?(:type) && ast.respond_to?(:children)
       if %i(module class).include?(ast.type)
@@ -117,11 +120,17 @@ module Mire
         add_method(@method, definition: ast)
         ast.children.each { |c| parse_method c }
       elsif ast.type == :send &&
-        (CALLBACKS + %i(scope validate)).include?(ast.children[1])
+            (CALLBACKS + %i(scope validate)).include?(ast.children[1])
         if ast.children[2]
           @method = ast.children[2].children.last
           ast.children.each { |c| parse_method c }
         end
+      elsif ast.type == :block &&
+            BLOCKS.include?(ast.children.first.children[1])
+        parse_method ast.children[2]
+      elsif ast.type == :if
+        parse_method ast.children[0]
+        ast.children.each { |c| parse c }
       else
         ast.children.each { |c| parse c }
       end

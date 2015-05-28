@@ -5,6 +5,7 @@
 * Add configuration option to exclude files / folders from analyzing
 * Add configuration initializer option
 * Switch from OptionParser to Slop as option parser
+* Extend analyzer to handle modifier ifs and special blocks
 
 ## 0.1.0
 

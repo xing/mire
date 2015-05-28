@@ -11,6 +11,7 @@ describe Mire::Analyzer, type: :class do
       file.close
     end
   end
+  let(:found_methods) { methods.map { |k, _v| k } }
 
   it 'finds method calls inside method' do
     file <<-RUBY
@@ -62,7 +63,7 @@ describe Mire::Analyzer, type: :class do
       end
     RUBY
     subject
-    expect(methods[:buz]).not_to be_nil
+    expect(found_methods).to match_array(%i(bar buz))
   end
 
   it 'finds callbacks' do
@@ -75,22 +76,47 @@ describe Mire::Analyzer, type: :class do
       end
     RUBY
     subject
-    expect(methods[:bar]).not_to be_nil
+    expect(found_methods).to match_array(%i(bar))
   end
 
   it 'finds validation calls' do
     file <<-RUBY
       class Foo
         validate :bar
-        validate do
+      end
+    RUBY
+    subject
+    expect(found_methods).to match_array(%i(bar))
+  end
+
+  it 'finds method calls inside blocks - e.g. rake tasks' do
+    file <<-RUBY
+      namespace :foo do
+        task bar: :environment do
+          Foo.bar
+          Foo.bax
         end
-        def bar
-          true
+        task bax: :environment do
+          Foo.bur
         end
       end
     RUBY
     subject
-    expect(methods[:bar]).not_to be_nil
+    expect(found_methods).to match_array(%i(bar bax bur))
+  end
+
+  it 'finds method calls in modifier ifs' do
+    file <<-RUBY
+      class Foo
+        validate :bar unless bux
+        validate :bar if buy
+        def bax
+          foo if bur
+        end
+      end
+    RUBY
+    subject
+    expect(found_methods).to match_array(%i(bar bux buy bax bur foo))
   end
 
   it 'adds also not called methods' do
@@ -105,8 +131,7 @@ describe Mire::Analyzer, type: :class do
       end
     RUBY
     subject
-    expect(methods[:bar]).not_to be_nil
-    expect(methods[:baz]).not_to be_nil
+    expect(found_methods).to match_array(%i(bar baz))
   end
 
   context 'haml files' do
