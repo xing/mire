@@ -105,37 +105,56 @@ module Mire
       elsif ast.type == :sym
         add_method(ast.children[0], invocation: ast)
       end
-      ast.children.each { |c| parse_method c }
+      parse_children(ast, :parse_method)
     end
 
-    # TODO: cleanup
     def parse(ast)
       return unless ast.respond_to?(:type) && ast.respond_to?(:children)
-      if %i(module class).include?(ast.type)
-        @namespace.push(get_const(ast.children.first))
-        ast.children.each { |c| parse c }
-        @namespace.pop
-      elsif %i(def defs).include?(ast.type)
-        @method = ast.children[ast.type == :defs ? 1 : 0]
-        add_method(@method, definition: ast)
-        ast.children.each { |c| parse_method c }
-      elsif ast.type == :send &&
-            (CALLBACKS + %i(scope validate)).include?(ast.children[1])
-        if ast.children[2]
-          @method = ast.children[2].children.last
-          ast.children.each { |c| parse_method c }
-        end
-      elsif ast.type == :block &&
-            BLOCKS.include?(ast.children.first.children[1])
-        parse_method ast.children[2]
-      elsif ast.type == :if
-        parse_method ast.children[0]
-        ast.children.each { |c| parse c }
-      else
-        ast.children.each { |c| parse c }
-      end
+      parse_method = "parse_#{ast.type}_node"
+      return send(parse_method, ast) if respond_to?(parse_method, true)
+      parse_children(ast)
     rescue
       raise "Error while parsing #{@filename}:#{ast.loc.line}"
+    end
+
+    def parse_children(ast, method = :parse)
+      ast.children.each { |c| send(method, c) }
+    end
+
+    def parse_class_node(ast)
+      @namespace.push(get_const(ast.children.first))
+      parse_children(ast)
+      @namespace.pop
+    end
+    alias_method :parse_module_node, :parse_class_node
+
+    def parse_def_node(ast)
+      @method = ast.children[ast.type == :defs ? 1 : 0]
+      add_method(@method, definition: ast)
+      parse_children(ast, :parse_method)
+    end
+    alias_method :parse_defs_node, :parse_def_node
+
+    def parse_send_node(ast)
+      unless (CALLBACKS + %i(scope validate)).include?(ast.children[1])
+        return parse_children(ast)
+      end
+      return unless ast.children[2]
+
+      @method = ast.children[2].children.last
+      parse_children(ast, :parse_method)
+    end
+
+    def parse_block_node(ast)
+      unless BLOCKS.include?(ast.children.first.children[1])
+        return parse_children(ast)
+      end
+      parse_method(ast.children[2])
+    end
+
+    def parse_if_node(ast)
+      parse_method(ast.children[0])
+      parse_children(ast)
     end
   end
 end
