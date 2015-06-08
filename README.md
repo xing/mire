@@ -1,5 +1,7 @@
 [![Build
 Status](https://travis-ci.org/xing/mire.svg?branch=master)](https://travis-ci.org/xing/mire)
+[![Code
+Climate](https://codeclimate.com/github/xing/mire/badges/gpa.svg)](https://codeclimate.com/github/xing/mire)
 
 # mire [ˈmɪʀɛ]
 
