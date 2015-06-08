@@ -2,6 +2,8 @@
 
 ## master (unreleased)
 
+* Add travis configuration and build status image
+
 ## 0.1.1
 
 * Add configuration option to exclude files / folders from analyzing

@@ -1,3 +1,6 @@
+[![Build
+Status](https://travis-ci.org/xing/mire.svg?branch=master)](https://travis-ci.org/xing/mire)
+
 # mire [ˈmɪʀɛ]
 
 mire analyzes a Ruby project and helps you to find dependencies, call
