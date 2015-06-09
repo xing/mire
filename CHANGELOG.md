@@ -4,6 +4,7 @@
 
 * Add travis configuration and build status image
 * Remove slop to solve dependency problem
+* Add version (-v, --version) cli option
 
 ## 0.1.1
 

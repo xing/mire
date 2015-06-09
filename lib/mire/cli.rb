@@ -7,7 +7,8 @@ module Mire
         [:check,   'Check term and find usages', arguments: [:term]],
         [:unused,  'Check for unused methods'],
         [:init,    'Create initial configuration file'],
-        [:help,    'Show this help']
+        [:help,    'Show this help'],
+        [:version, 'Prints out version']
       ]
 
       def parse
@@ -44,6 +45,10 @@ module Mire
           opts = "#{options(command).join(', ')} #{arguments.join(' ').upcase}"
           puts "  #{opts}#{' ' * (25 - opts.length)}#{description}"
         end
+      end
+
+      def version
+        puts Mire::VERSION
       end
 
       def init

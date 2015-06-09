@@ -3,6 +3,7 @@ require 'yaml'
 require 'ruby-progressbar'
 require 'haml_lint'
 
+require 'mire/version'
 require 'mire/configuration'
 require 'mire/configuration_methods'
 require 'mire/analyzer'
