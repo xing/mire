@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Add travis configuration and build status image
+* Remove slop to solve dependency problem
 
 ## 0.1.1
 
